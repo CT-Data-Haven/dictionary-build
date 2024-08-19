@@ -17,3 +17,4 @@
 *.code-workspace.vscode/*
 .env
 .vscode/*
+.last_build
