@@ -1,0 +1,32 @@
+name: Build duckdb database and archive
+
+on: [push, workflow_dispatch]
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v3
+      - name: Add conda to system path
+        run: |
+          # $CONDA is an environment variable pointing to the root of the miniconda directory
+          echo $CONDA/bin >> $GITHUB_PATH
+      - name: Install conda dependencies
+        run: |
+          conda env create --file environment.yml --name dictionary
+          conda activate dictionary
+      - name: Install pip dependencies
+        run: |
+          pip install -r requirements.txt
+      - name: DuckDB setup
+        uses: opt-nc/setup-duckdb-action@v1.0.9
+      - name: Test installations
+        run: |
+          snakemake --version
+          python --version
+          duckdb --version
+            

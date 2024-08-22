@@ -6,6 +6,9 @@ tables = ['variables', 'sources', 'projects', 'vocab']
 envvars:
     'AIRTABLE_API_KEY'
 
+conda:
+    'environment.yml'
+
 rule check_dates:
     output:
         flag = '.needs_update',
