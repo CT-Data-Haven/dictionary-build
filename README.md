@@ -17,9 +17,9 @@ duckdb -c "
     │  varchar   │    int64    │
     ├────────────┼─────────────┤
     │ projects   │           3 │
-    │ sources    │           8 │
+    │ sources    │           7 │
     │ variables  │          10 │
-    │ vocab      │           7 │
+    │ vocab      │           6 │
     └────────────┴─────────────┘
 
 ``` bash
