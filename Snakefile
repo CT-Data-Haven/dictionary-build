@@ -20,7 +20,7 @@ rule download_data:
     output:
         jsons = expand('input_data/{table}.json', table = tables),
     script:
-        'scripts/download_tables.R'
+        'scripts/fetch_tables.py'
 
 rule build_db:
     input:
