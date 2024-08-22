@@ -9,4 +9,3 @@ dependencies:
   - certifi
   - openssl
   - ipykernel
-prefix: ./envs
