@@ -1,9 +1,14 @@
 library(dplyr)
-readRenviron(".env")
+if (exists("snakemake")) {
+    key <- snakemake@params[["key"]]
+} else {
+    readRenviron(".env")
+    key <- Sys.getenv("AIRTABLE_API_KEY")
+}
 
 # get dictionary base ID--otherwise just annoying to have to hardcode
 id_resp <- httr2::request("https://api.airtable.com/v0/meta/bases") |>
-    httr2::req_auth_bearer_token(Sys.getenv("AIRTABLE_API_KEY")) |>
+    httr2::req_auth_bearer_token(key) |>
     httr2::req_perform() |>
     httr2::resp_body_json() |>
     purrr::pluck("bases")
@@ -11,7 +16,7 @@ id <- id_resp[purrr::map_lgl(id_resp, \(x) x$name == "Dictionary")][[1]]$id
 
 # get names of all tables in base
 tbl_names <- httr2::request(sprintf("https://api.airtable.com/v0/meta/bases/%s/tables", id)) |>
-    httr2::req_auth_bearer_token(Sys.getenv("AIRTABLE_API_KEY")) |>
+    httr2::req_auth_bearer_token(key) |>
     httr2::req_perform() |>
     httr2::resp_body_json() |>
     purrr::pluck("tables") |>

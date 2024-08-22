@@ -13,6 +13,8 @@ rule check_dates:
         'bash scripts/compare_dates.sh .last_build {output.flag}'
 
 rule download_data:
+    params:
+        key=os.environ['AIRTABLE_API_KEY'],
     input:
         flag = rules.check_dates.output.flag,
     output:

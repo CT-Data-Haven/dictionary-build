@@ -1,0 +1,7 @@
+name: /home/camille/code/dictionary/envs
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - snakemake
+prefix: /home/camille/code/dictionary/envs
