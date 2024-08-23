@@ -49,7 +49,7 @@ jobs:
           echo -n "duckdb: " && duckdb --version
           echo -n "quarto: " && quarto --version
           echo -n "conda: " && conda --version
-          pwd
-          # snakemake --use-conda all -n
+          echo -n "working directory: " && pwd
           conda info
+          snakemake --use-conda all -n
             
