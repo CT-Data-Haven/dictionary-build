@@ -35,10 +35,12 @@ jobs:
         uses: quarto-dev/quarto-actions/setup@v2
 
       - name: Test installations
+        env:
+          AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY }}
         run: |
-          snakemake --version
-          python --version
-          duckdb --version
-          quarto --version
+          echo -n "snakemake: " && snakemake --version
+          echo -n "python: " && python --version
+          echo -n "duckdb: " && duckdb --version
+          echo -n "quarto: " && quarto --version
           snakemake --use-conda all -n
             
