@@ -10,6 +10,7 @@ dependencies:
   - certifi
   - openssl
   - ipykernel
+  - nbclient
   - pip
   - pip:
     - -r requirements.txt
