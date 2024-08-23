@@ -42,5 +42,8 @@ jobs:
           echo -n "python: " && python --version
           echo -n "duckdb: " && duckdb --version
           echo -n "quarto: " && quarto --version
-          snakemake --use-conda all -n
+          echo -n "mamba: " && mamba --version
+          pwd
+          # snakemake --use-conda --conda-frontend mamba all -n
+          mamba info --envs 
             
