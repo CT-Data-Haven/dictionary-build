@@ -7,9 +7,10 @@ defaults:
     shell: bash -leo pipefail {0}
 
 jobs:
+  # job 1
   setup:
+    name: 'Setup dependencies'
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -52,4 +53,37 @@ jobs:
           echo -n "working directory: " && pwd
           conda info
           snakemake all -n
+
+  # job 2
+  build:
+    name: 'Build database'
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - name: Run snakemake
+        env:
+          AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY }}
+        run: |
+          snakemake all -c all 
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: db-artifact
+          path: dict.duckdb
+
+  # job 3
+  # release:
+  #   runs-on: ubuntu-latest
+  #   needs: build
+
+  #   steps:
+  #     - name: Tag version
+  #       uses: codacy/git-version@2.8.0
+  #       id: version
+  #       with:
+  #         prefix: 'v'
+  #         release-branch: 'main'
+  #         minor-identifier: 'minor-bump:'
+  #         major-identifier: 'major-bump:'
+
             
