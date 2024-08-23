@@ -2,7 +2,6 @@ name: dictionary
 channels:
   - conda-forge
   - bioconda
-  - r
   - defaults
 dependencies:
   - snakemake
@@ -11,9 +10,6 @@ dependencies:
   - certifi
   - openssl
   - ipykernel
-  - r-base
-  - r-knitr
-  - r-markdown
   - pip
   - pip:
     - -r requirements.txt

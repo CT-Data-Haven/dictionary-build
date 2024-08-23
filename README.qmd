@@ -1,19 +1,11 @@
 ---
 title: data dictionary
 format: gfm
-engine: knitr
+engine: jupyter
 ---
 
-# readme
-
-
-```{bash}
-duckdb -c "
-    SELECT table_name, count(*) AS num_columns
-    FROM information_schema.columns
-    GROUP BY table_name
-    ORDER BY table_name;
-" dict.duckdb
+```{python}
+!duckdb -c "SELECT table_name, count(*) AS num_columns FROM information_schema.columns GROUP BY table_name ORDER BY table_name;" dict.duckdb
 ```
 
 ```{bash}
