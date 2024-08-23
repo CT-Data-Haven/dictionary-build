@@ -45,5 +45,5 @@ jobs:
           echo -n "mamba: " && micromamba --version
           pwd
           # snakemake --use-conda all -n
-          micromamba info --envs 
+          micromamba info
             
