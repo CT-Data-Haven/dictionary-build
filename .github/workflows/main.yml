@@ -51,5 +51,5 @@ jobs:
           echo -n "conda: " && conda --version
           echo -n "working directory: " && pwd
           conda info
-          snakemake --use-conda all -n
+          snakemake all -n
             
