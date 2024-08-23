@@ -17,12 +17,18 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v3
 
+      # - name: Install mamba
+      #   uses: mamba-org/setup-micromamba@v1.9.0
+      #   with:
+      #     environment-file: environment.yml
+      #     init-shell: bash
+      #     cache-environment: true
+
       - name: Install mamba
-        uses: mamba-org/setup-micromamba@v1.9.0
+        uses: conda-incubator/setup-miniconda@v3
         with:
           environment-file: environment.yml
-          init-shell: bash
-          cache-environment: true
+          activate-environment: dictionary
 
       - name: Install pip dependencies
         run: |
@@ -42,8 +48,8 @@ jobs:
           echo -n "python: " && python --version
           echo -n "duckdb: " && duckdb --version
           echo -n "quarto: " && quarto --version
-          echo -n "mamba: " && micromamba --version
+          echo -n "conda: " && conda --version
           pwd
           # snakemake --use-conda all -n
-          micromamba info
+          conda info
             
