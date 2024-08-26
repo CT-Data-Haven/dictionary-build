@@ -9,7 +9,7 @@ defaults:
 jobs:
   # job 1
   setup-and-build:
-    name: 'Setup dependencies'
+    name: "Setup dependencies"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -33,6 +33,7 @@ jobs:
       - name: Test installations
         env:
           AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY }}
+          MOTHERDUCK_TOKEN: ${{ secrets.MOTHERDUCK_TOKEN }}
         run: |
           echo -n "snakemake: " && snakemake --version
           echo -n "python: " && python --version
@@ -48,7 +49,7 @@ jobs:
           AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY }}
           MOTHERDUCK_TOKEN: ${{ secrets.MOTHERDUCK_TOKEN }}
         run: |
-          snakemake all_uploads -c all 
+          snakemake all_uploads -c all
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -74,5 +75,3 @@ jobs:
   #         release-branch: 'main'
   #         minor-identifier: 'minor-bump:'
   #         major-identifier: 'major-bump:'
-
-            
