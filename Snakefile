@@ -5,7 +5,7 @@ load_dotenv()
 tables = ['variables', 'sources', 'projects', 'vocab']
 envvars:
     'AIRTABLE_API_KEY',
-    'motherduck_token'
+    'MOTHERDUCK_TOKEN'
 
 conda:
     'environment.yml'
@@ -46,7 +46,7 @@ rule gh_release:
 
 rule md_upload:
     params:
-        key=os.environ['motherduck_token'],
+        key=os.environ['MOTHERDUCK_TOKEN'],
     input:
         db = rules.build_db.output.db,
         # script = 'scripts/upload_to_md.sh',
