@@ -40,9 +40,9 @@ rule gh_release:
         meta = 'meta.toml',
         db = rules.build_db.output.db,
     output:
-        flag = '.db_uploaded.json',
+        flag = '.db_released.json',
     shell:
-        'bash scripts/make_release.sh {input.meta} {input.db} {output.flag}'
+        'bash scripts/make_release.sh {input.db} {input.meta} {output.flag}'
 
 rule md_upload:
     params:

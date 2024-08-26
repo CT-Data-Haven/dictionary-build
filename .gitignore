@@ -19,5 +19,6 @@
 .vscode/*
 .last_build
 .needs_update
+.db_released.json
 .vscode/
 envs/

@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-META=$1
-DB=$2
+DB=$1
+META=$2
 FLAG=$3
 
 # read version from toml
-version=$(tomlq -r "$META" .version)
+version=$(tomlq -r ".version" "$META")
 tag="v$version"
 
 # is there already a release called viz? if not, create it

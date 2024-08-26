@@ -48,6 +48,7 @@ jobs:
         env:
           AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY }}
           MOTHERDUCK_TOKEN: ${{ secrets.MOTHERDUCK_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           snakemake all_uploads -c all
 
