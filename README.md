@@ -1,15 +1,8 @@
 # data dictionary
 
 
-# readme
-
-``` bash
-duckdb -c "
-    SELECT table_name, count(*) AS num_columns
-    FROM information_schema.columns
-    GROUP BY table_name
-    ORDER BY table_name;
-" dict.duckdb
+``` python
+!duckdb -c "SELECT table_name, count(*) AS num_columns FROM information_schema.columns GROUP BY table_name ORDER BY table_name;" dict.duckdb
 ```
 
     ┌────────────┬─────────────┐
@@ -22,8 +15,8 @@ duckdb -c "
     │ vocab      │           6 │
     └────────────┴─────────────┘
 
-``` bash
-snakemake --filegraph | dot -T png > dag.png
+``` python
+!snakemake --filegraph | dot -T png > dag.png
 ```
 
     Building DAG of jobs...

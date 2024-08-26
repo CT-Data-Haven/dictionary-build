@@ -8,7 +8,7 @@ defaults:
 
 jobs:
   # job 1
-  setup:
+  setup-and-build:
     name: 'Setup dependencies'
     runs-on: ubuntu-latest
     steps:
@@ -18,22 +18,11 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v3
 
-      # - name: Install mamba
-      #   uses: mamba-org/setup-micromamba@v1.9.0
-      #   with:
-      #     environment-file: environment.yml
-      #     init-shell: bash
-      #     cache-environment: true
-
       - name: Install mamba
         uses: conda-incubator/setup-miniconda@v3
         with:
           environment-file: environment.yml
           activate-environment: dictionary
-
-      # - name: Install pip dependencies
-      #   run: |
-      #     pip install -r requirements.txt
 
       - name: Install duckdb
         uses: opt-nc/setup-duckdb-action@v1.0.9
@@ -52,19 +41,15 @@ jobs:
           echo -n "conda: " && conda --version
           echo -n "working directory: " && pwd
           conda info
-          snakemake all -n
+          snakemake gh_release -n
 
-  # job 2
-  # build:
-  #   name: 'Build database'
-  #   runs-on: ubuntu-latest
-  #   needs: setup
-  #   steps:
-      - name: Run snakemake
+      - name: Build database and upload
         env:
           AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY }}
+          motherduck_token: ${{ secrets.MOTHERDUCK_TOKEN }}
         run: |
-          snakemake all -c all 
+          snakemake all_uploads -c all 
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:

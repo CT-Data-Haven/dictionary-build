@@ -4,7 +4,8 @@ load_dotenv()
 
 tables = ['variables', 'sources', 'projects', 'vocab']
 envvars:
-    'AIRTABLE_API_KEY'
+    'AIRTABLE_API_KEY',
+    'motherduck_token'
 
 conda:
     'environment.yml'
@@ -34,6 +35,31 @@ rule build_db:
     shell:
         'bash scripts/build_db.sh {output.db} {input.jsons}'
 
+rule gh_release:
+    input:
+        meta = 'meta.toml',
+        db = rules.build_db.output.db,
+    output:
+        flag = '.db_uploaded.json',
+    shell:
+        'bash scripts/make_release.sh {input.meta} {input.db} {output.flag}'
+
+rule md_upload:
+    params:
+        key=os.environ['motherduck_token'],
+    input:
+        db = rules.build_db.output.db,
+        # script = 'scripts/upload_to_md.sh',
+    output:
+        flag = '.last_upload',
+    shell:
+        'bash scripts/upload_to_md.sh {input.db} {params.key}'
+
+rule all_uploads:
+    input:
+        gh = rules.gh_release.output.flag,
+        md = rules.md_upload.output.flag,
+
 rule readme:
     input:
         qmd = 'README.qmd',
@@ -48,6 +74,7 @@ rule readme:
 rule all:
     input:
         rules.check_dates.output.flag,
-        rules.build_db.output.db,
+        rules.gh_release.output.flag,
+        rules.md_upload.output.flag,
         rules.readme.output.md,
     default_target: True
