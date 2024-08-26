@@ -30,7 +30,7 @@ rule build_db:
     input:
         jsons = rules.download_data.output.jsons,
     output:
-        db = 'dict.duckdb',
+        db = 'gloss.duckdb',
         flag = '.last_build',
     shell:
         'bash scripts/build_db.sh {output.db} {input.jsons}'
@@ -78,3 +78,14 @@ rule all:
         rules.md_upload.output.flag,
         rules.readme.output.md,
     default_target: True
+
+rule clean:
+    shell:
+        '''
+        rm -f {rules.build_db.output.flag} \
+            {rules.gh_release.output.flag} \
+            {rules.md_upload.output.flag} \
+            {rules.readme.output.md} \
+            {rules.readme.output.dag} \
+            {rules.build_db.output.db} 
+        '''
