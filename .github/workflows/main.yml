@@ -46,7 +46,7 @@ jobs:
       - name: Build database and upload
         env:
           AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY }}
-          motherduck_token: ${{ secrets.MOTHERDUCK_TOKEN }}
+          MOTHERDUCK_TOKEN: ${{ secrets.MOTHERDUCK_TOKEN }}
         run: |
           snakemake all_uploads -c all 
 
