@@ -2,11 +2,21 @@
 title: data dictionary
 format: gfm
 engine: jupyter
+execute: 
+  echo: false
 ---
 
+First attempt at a basic data dictionary for indicators used at DataHaven. Edits are done in Airtable, then loaded into a duckdb database (`gloss.duckdb`). This database is also made available in tagged releases in this repo and on the Motherduck platform (contact Camille if you want access). The release should facilitate building an R package to query sets of definitions easily, e.g. all indicators used in a specific project, or all indicators associated with a certain source. 
+
+The tables in the database are:
+
 ```{python}
-!duckdb -c "SELECT table_name, count(*) AS num_columns FROM information_schema.columns GROUP BY table_name ORDER BY table_name;" gloss.duckdb
+import duckdb
+con = duckdb.connect('gloss.duckdb', read_only=True)
+con.sql('SELECT table_name, estimated_size AS rows, column_count AS columns FROM duckdb_tables() ORDER BY table_name;').show()
+con.close()
 ```
+Workflows are managed with snakemake, as shown:
 
 ```{python}
 !snakemake --filegraph | dot -T png > dag.png
