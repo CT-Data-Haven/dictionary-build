@@ -12,15 +12,15 @@ conda:
 
 rule check_dates:
     output:
-        flag = '.needs_update',
+        flag = touch('.needs_update'),
     shell:
-        'bash scripts/compare_dates.sh .last_build {output.flag}'
+        'bash scripts/compare_dates.sh .last_build .needs_update'
 
 rule download_data:
     params:
         key=os.environ['AIRTABLE_API_KEY'],
     input:
-        flag = rules.check_dates.output.flag,
+        flag = '.needs_update',
     output:
         jsons = expand('input_data/{table}.json', table = tables),
     script:
@@ -73,7 +73,8 @@ rule readme:
 
 rule all:
     input:
-        rules.check_dates.output.flag,
+        # rules.download_data.input.flag,
+        '.needs_update',
         rules.gh_release.output.flag,
         rules.md_upload.output.flag,
         rules.readme.output.md,

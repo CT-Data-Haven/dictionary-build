@@ -17,6 +17,8 @@ if [ -f "$flagin" ]; then
 fi
 
 # if need_update = 1, touch flagfile
-if [ $need_update -eq 1 ]; then
+if [ "$need_update" -eq 1 ]; then
     touch "$flagout"
 fi
+
+echo "$need_update"
