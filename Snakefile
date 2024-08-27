@@ -77,6 +77,7 @@ rule all:
         rules.gh_release.output.flag,
         rules.md_upload.output.flag,
         rules.readme.output.md,
+        rules.build_db.output.db,
     default_target: True
 
 rule clean:
