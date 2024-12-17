@@ -4,7 +4,7 @@
 # return 1 (update) if airtable date is later than flag file date, 0 (don't update) otherwise.
 # if no date flag exists, return 1.
 flagin=$1
-flagout=$2
+# flagout=$2
 need_update=1
 airtable=$(gh issue view 1 --json body --jq '.body')
 
@@ -17,8 +17,8 @@ if [ -f "$flagin" ]; then
 fi
 
 # if need_update = 1, touch flagfile
-if [ "$need_update" -eq 1 ]; then
-    touch "$flagout"
-fi
+# if [ "$need_update" -eq 1 ]; then
+#     touch "$flagout"
+# fi
 
 echo "$need_update"

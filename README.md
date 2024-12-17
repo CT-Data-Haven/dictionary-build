@@ -17,7 +17,7 @@ The tables in the database are:
     ├────────────┼───────┼─────────┤
     │ projects   │     3 │       3 │
     │ sources    │    12 │       7 │
-    │ variables  │    85 │      10 │
+    │ variables  │   118 │      10 │
     │ vocab      │     1 │       6 │
     └────────────┴───────┴─────────┘
 

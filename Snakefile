@@ -1,8 +1,19 @@
 from dotenv import load_dotenv
 import os
+import subprocess
 load_dotenv()
 
+def needs_update(flag):
+    update = subprocess.run(['bash', 'scripts/compare_dates.sh', flag], capture_output=True)
+    update = bool(int(update.stdout))
+    if update:
+        print(f'Flag {flag} needs to be updated')
+    else:
+        print(f'Flag {flag} is up to date')
+    return update
+
 tables = ['variables', 'sources', 'projects', 'vocab']
+
 envvars:
     'AIRTABLE_API_KEY',
     'MOTHERDUCK_TOKEN'
@@ -10,11 +21,23 @@ envvars:
 conda:
     'environment.yml'
 
-rule check_dates:
+# rule check_dates:
+#     output:
+#         flag = touch('.needs_update'),
+#     shell:
+#         'bash scripts/compare_dates.sh .last_build .needs_update'
+rule check_update:
     output:
-        flag = touch('.needs_update'),
-    shell:
-        'bash scripts/compare_dates.sh .last_build .needs_update'
+        flag = '.needs_update',
+    run:
+        output_dir = os.path.dirname(output.flag)
+        if output_dir and not os.path.exists(output_dir):
+            os.makedirs(output_dir)
+        if needs_update('.last_build'):
+            shell('touch {output.flag}')
+        else:
+            shell('rm -f {output.flag}')
+
 
 rule download_data:
     params:
@@ -73,10 +96,9 @@ rule readme:
 
 rule all:
     input:
-        # rules.download_data.input.flag,
         '.needs_update',
         rules.gh_release.output.flag,
-        rules.md_upload.output.flag,
+        # rules.md_upload.output.flag,
         rules.readme.output.md,
         rules.build_db.output.db,
     default_target: True
